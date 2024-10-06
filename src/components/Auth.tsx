@@ -21,8 +21,8 @@ export const Auth = () => {
             const userCredentials = await signInWithEmailAndPassword(auth, email, password);
             dispatch(setUser(userCredentials.user));
             console.log(userCredentials);
-        } catch (err) {
-            console.log(err);
+        } catch (err : any) {
+            alert(`Failed with error : ${err.code}`);
         }
 
         navigate("/tasks");
@@ -34,7 +34,7 @@ export const Auth = () => {
             dispatch(setUser(userCredentials.user));
             console.log(userCredentials);
         } catch (err) {
-            console.log(err);
+            alert(err);
         }
 
         navigate("/tasks");
