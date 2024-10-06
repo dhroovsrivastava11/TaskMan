@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import './App.css'
 import { Auth } from './components/Auth'
 import { TaskList } from './components/TaskList'
+import PrivateRoute from './components/PrivateRouter'
 
 
 function App() {
@@ -12,7 +13,14 @@ function App() {
       <Routes>
         
         <Route path='' element={< Auth />} />
-        <Route path='/tasks' element={<TaskList/>} />
+        <Route
+          path="/tasks"
+          element={
+            <PrivateRoute>
+              <TaskList />
+            </PrivateRoute>
+          }
+        />
 
       </Routes>
     </BrowserRouter>

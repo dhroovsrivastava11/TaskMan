@@ -5,6 +5,8 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/AuthSlice";
+import { useNavigate } from "react-router-dom";
+
  
 export const Auth = () => {
     const [email, setEmail] = useState("");
@@ -12,19 +14,30 @@ export const Auth = () => {
 
     const dispatch = useDispatch();
 
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
+        try{
+            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+            dispatch(setUser(userCredentials.user));
+            console.log(userCredentials);
+        } catch (err) {
+            console.log(err);
+        }
 
-        const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-    
-        dispatch(setUser(userCredentials.user));
-        console.log(userCredentials);
+        navigate("/tasks");
     }
 
     const handleSignUp = async () => {
-        const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-        dispatch(setUser(userCredentials.user));
-        console.log(userCredentials);
+        try{
+            const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+            dispatch(setUser(userCredentials.user));
+            console.log(userCredentials);
+        } catch (err) {
+            console.log(err);
+        }
+
+        navigate("/tasks");
     }
 
     return (
