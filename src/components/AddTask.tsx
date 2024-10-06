@@ -21,7 +21,7 @@ export const AddTask = ({userId} : {userId : string} ) => {
 
     async function handleAddTask(){
         if(!taskTitle) return;
-        const docRef = await addDoc(collection(db, "Users", userId, "tasks"), { title: taskTitle });
+        const docRef = await addDoc(collection(db, `Users`, `${userId}`, `tasks`), { title: taskTitle });
         dispatch(addTask({id: docRef.id, title: taskTitle}));
         setTaskTitle("");
     }

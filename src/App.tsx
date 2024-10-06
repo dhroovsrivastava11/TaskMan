@@ -4,6 +4,7 @@ import './App.css'
 import { Auth } from './routes/Auth'
 import { TaskList } from './routes/TaskList'
 import PrivateRoute from './routes/PrivateRouter'
+import { Profile } from './routes/Profile'
 
 
 function App() {
@@ -20,6 +21,13 @@ function App() {
               <TaskList />
             </PrivateRoute>
           }
+        />
+        
+        <Route path='/profile' element={
+          <PrivateRoute>
+            <Profile/>
+          </PrivateRoute>
+        }
         />
 
       </Routes>

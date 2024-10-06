@@ -17,8 +17,6 @@ export const TaskList = () => {
 
     const UserId = useSelector((state : RootState) => state.auth.user)?.uid;
     
-    console.log(UserId);
-    
     useEffect( () => {
         setLoading(true);
         const fetchTasks = async () => {

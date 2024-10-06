@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, addDoc, collection, setDoc } from "firebase/firestore";
 
  
 export const Auth = () => {
@@ -31,7 +31,7 @@ export const Auth = () => {
         try{
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
             dispatch(setUser(userCredentials.user));
-            await addDoc(collection(db,"Users"), {userId : userCredentials.user.uid})
+            const doc2 = await setDoc(doc(db, "Users", userCredentials.user.uid), {userId: userCredentials.user.uid})
         } catch (err) {
             alert(err);
         }
