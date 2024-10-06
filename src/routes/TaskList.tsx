@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
 import { setTasks } from "@/redux/TaskSlice";
-import { Appbar } from "./Appbar";
-import { AddTask } from "./AddTask";
-import { TaskCard } from "./TaskCard";
+import { Appbar } from "../components/Appbar";
+import { AddTask } from "../components/AddTask";
+import { TaskCard } from "../components/TaskCard";
 import { Skeleton } from "@/components/ui/skeleton"
 
 export const TaskList = () => {
@@ -15,14 +15,14 @@ export const TaskList = () => {
     const tasks = useSelector((state : RootState) => state.tasks.tasks);
     const [loading, setLoading] = useState(true);
 
-    const User = useSelector((state : RootState) => state.auth.user);
+    const UserId = useSelector((state : RootState) => state.auth.user)?.uid;
     
-    console.log(User);
+    console.log(UserId);
     
     useEffect( () => {
         setLoading(true);
         const fetchTasks = async () => {
-            const querySnapshot = await getDocs(collection(db, "tasks"));
+            const querySnapshot = await getDocs(collection(db, `Users/${UserId}/tasks`));
             setLoading(false);
             const tasksData = querySnapshot.docs.map((doc) => {
                 const data = doc.data();
@@ -57,7 +57,7 @@ export const TaskList = () => {
 
                 </div>
                 
-            <AddTask/>
+            <AddTask userId={UserId? UserId : ""}/>
         </div>
     )
     

@@ -14,14 +14,14 @@ import {
     SheetTrigger,
   } from "@/components/ui/sheet"
 
-export const AddTask = () => {
+export const AddTask = ({userId} : {userId : string} ) => {
 
     const [taskTitle, setTaskTitle] = useState("");
     const dispatch = useDispatch();
 
     async function handleAddTask(){
         if(!taskTitle) return;
-        const docRef = await addDoc(collection(db, "tasks"), { title: taskTitle });
+        const docRef = await addDoc(collection(db, "Users", userId, "tasks"), { title: taskTitle });
         dispatch(addTask({id: docRef.id, title: taskTitle}));
         setTaskTitle("");
     }

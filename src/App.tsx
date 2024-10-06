@@ -1,9 +1,9 @@
 
 import { BrowserRouter, Route, Routes} from 'react-router-dom'
 import './App.css'
-import { Auth } from './components/Auth'
-import { TaskList } from './components/TaskList'
-import PrivateRoute from './components/PrivateRouter'
+import { Auth } from './routes/Auth'
+import { TaskList } from './routes/TaskList'
+import PrivateRoute from './routes/PrivateRouter'
 
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        
+      
         <Route path='' element={< Auth />} />
         <Route
           path="/tasks"

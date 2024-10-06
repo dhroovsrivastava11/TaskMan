@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig"
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { auth, db } from "../firebase/firebaseConfig"
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
 
  
 export const Auth = () => {
@@ -20,11 +21,9 @@ export const Auth = () => {
         try{
             const userCredentials = await signInWithEmailAndPassword(auth, email, password);
             dispatch(setUser(userCredentials.user));
-            console.log(userCredentials);
         } catch (err : any) {
             alert(`Failed with error : ${err.code}`);
         }
-
         navigate("/tasks");
     }
 
@@ -32,7 +31,7 @@ export const Auth = () => {
         try{
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
             dispatch(setUser(userCredentials.user));
-            console.log(userCredentials);
+            await addDoc(collection(db,"Users"), {userId : userCredentials.user.uid})
         } catch (err) {
             alert(err);
         }
