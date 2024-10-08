@@ -40,6 +40,9 @@ export const Appbar = () => {
                     TaskMan
                 </Link>
                 <div className="flex">
+                    <Link className="flex justify-center items-center px-10 text-2xl text-pink-400 font-semibold border-4 rounded-full bg-slate-50 mr-4 hover:cursor-pointer" to={"/groups"}> 
+                        Groups
+                    </Link>
                     <div>
                         <DropdownMenu>
                             <DropdownMenuTrigger>

@@ -28,8 +28,6 @@ export const AddTask = ({userId} : {userId : string} ) => {
 
     return (
         <div>
-            
-            
             <Sheet>
             <SheetTrigger className="fixed bottom-7 right-10 bg-pink-400 h-14 w-14 rounded-full flex items-center justify-center text-3xl pb-2 text-slate-50">+</SheetTrigger>
             <SheetContent className="h-44 flex flex-col justify-between" side={"bottom"}>
