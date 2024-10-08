@@ -10,9 +10,8 @@ import {
 import { clearUser } from "@/redux/AuthSlice";
 import { clearTasks } from "@/redux/TaskSlice";
 import { useDispatch } from "react-redux";
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
-import { Profile } from "@/routes/Profile";
 import { Link } from "react-router-dom";
 
 export const Appbar = () => {

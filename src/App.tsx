@@ -6,6 +6,7 @@ import { TaskList } from './routes/TaskList'
 import PrivateRoute from './routes/PrivateRouter'
 import { Profile } from './routes/Profile'
 import { Groups } from './routes/Groups'
+import { GroupTaskList } from './routes/GroupTaskList'
 
 
 function App() {
@@ -35,6 +36,12 @@ function App() {
         <Route path='/groups' element={
           <PrivateRoute>
             <Groups/>
+          </PrivateRoute>
+        } />
+
+        <Route path='/grouptasks' element={
+          <PrivateRoute>
+            <GroupTaskList/>
           </PrivateRoute>
         } />
 
