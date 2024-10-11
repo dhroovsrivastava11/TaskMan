@@ -20,7 +20,11 @@ export const Auth = () => {
     const handleLogin = async () => {
         try{
             const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-            dispatch(setUser(userCredentials.user));
+            dispatch(setUser({
+                uid : userCredentials.user.uid,
+                email : userCredentials.user.email,
+                displayName : userCredentials.user.displayName
+            }));
         } catch (err : any) {
             alert(`Failed with error : ${err.code}`);
         }
@@ -30,7 +34,11 @@ export const Auth = () => {
     const handleSignUp = async () => {
         try{
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-            dispatch(setUser(userCredentials.user));
+            dispatch(setUser({
+                uid : userCredentials.user.uid,
+                email : userCredentials.user.email,
+                displayName : userCredentials.user.displayName
+            }));
             await setDoc(doc(db, "Users", userCredentials.user.uid), {userId: userCredentials.user.uid})
         } catch (err) {
             alert(err);

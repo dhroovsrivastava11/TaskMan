@@ -15,12 +15,13 @@ export const GroupTaskList = () => {
     const dispatch = useDispatch();
     const tasks = useSelector((state : RootState) => state.tasks.tasks);
     const [loading, setLoading] = useState(true);
-    const [searchParams,setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const UserId = useSelector((state : RootState) => state.auth.user)?.uid;
     
     useEffect( () => {
         const iddd = searchParams.get("id");
+        console.log(iddd);
         setLoading(true);
         const fetchTasks = async () => {
             const querySnapshot = await getDocs(collection(db, `Users/${UserId}/tasks`));
