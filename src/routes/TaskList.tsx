@@ -48,7 +48,7 @@ export const TaskList = () => {
                             return null;
                         }
                         else{
-                            return <TaskCard title={task.title} id={task.id} key={task.id}/>
+                            return <TaskCard title={task.title} id={task.id} userId={UserId} key={task.id}/>
                         }
                      
                     }))}

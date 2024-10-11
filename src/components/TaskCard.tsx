@@ -9,23 +9,32 @@ import {
 import { useDispatch } from "react-redux"
 import { removeTask } from "@/redux/TaskSlice"
 import { db } from "@/firebase/firebaseConfig"
-import { doc, deleteDoc } from "firebase/firestore"
+import { doc, deleteDoc} from "firebase/firestore"
 import { useState } from "react"
+import { removeGroupTask } from "@/redux/GroupTaskSlice"
 
 interface TaskCardProps {
     title : string,
-    id : string
+    id : string,
+    userId? : string | null,
+    groupId? : string | null
 }
 
-export const TaskCard = ({title, id } : TaskCardProps) => {
+export const TaskCard = ({title, id,  userId, groupId } : TaskCardProps) => {
 
     const dispatch = useDispatch();
     const [checked, setChecked] = useState(false);
 
     const handleRemove = async (id : string) => {
         try{
-            await deleteDoc(doc(db, "tasks", id))
-            dispatch(removeTask(id));
+            if(userId){
+                console.log(await deleteDoc(doc(db, `Users/${userId}/tasks`, id)))
+                dispatch(removeTask(id));
+            } else {
+                console.log(await deleteDoc(doc(db, `Groups/${groupId}/tasks`, id)))
+                dispatch(removeGroupTask(id));
+            }
+            
         }catch (err) {
             console.log(err);
         }

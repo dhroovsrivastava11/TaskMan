@@ -13,16 +13,30 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
+import { addGroupTask } from "@/redux/GroupTaskSlice";
 
-export const AddTask = ({userId} : {userId : string} ) => {
+interface addTaskParameters {
+    userId? : string | null,
+    groupId? : string | null
+}
+
+export const AddTask = ({userId, groupId} : addTaskParameters ) => {
 
     const [taskTitle, setTaskTitle] = useState("");
     const dispatch = useDispatch();
 
     async function handleAddTask(){
         if(!taskTitle) return;
-        const docRef = await addDoc(collection(db, `Users`, `${userId}`, `tasks`), { title: taskTitle });
-        dispatch(addTask({id: docRef.id, title: taskTitle}));
+        if(userId){
+            const docRef = await addDoc(collection(db, `Users`, `${userId}`, `tasks`), { title: taskTitle });
+            dispatch(addTask({id: docRef.id, title: taskTitle}));
+        }
+        else {
+            const docRef = await addDoc(collection(db, `Groups`, `${groupId}`, `tasks`), {title : taskTitle});
+            dispatch(addGroupTask({id: docRef.id, title: taskTitle}));
+        }
+        
+        
         setTaskTitle("");
     }
 
@@ -35,7 +49,7 @@ export const AddTask = ({userId} : {userId : string} ) => {
                 <SheetTitle>
                         <Input type="text" value={taskTitle} className="max-w-xl mb-10" onChange={(e) => {
                         setTaskTitle(e.target.value);
-                        }} placeholder="Task title" />
+                        }} placeholder={userId ? "Task title" : "Group Task Title"} />
                 </SheetTitle>
                 <SheetDescription>
                         <Button className="bg-pink-400 font-semibold" onClick={handleAddTask}>Submit Task</Button>

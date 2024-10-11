@@ -4,33 +4,38 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebaseConfig";
-import { setTasks } from "@/redux/TaskSlice";
 import { Appbar } from "../components/Appbar";
 import { AddTask } from "../components/AddTask";
 import { TaskCard } from "../components/TaskCard";
 import { Skeleton } from "@/components/ui/skeleton"
 import { useSearchParams } from "react-router-dom";
+import { setGroupTasks } from "@/redux/GroupTaskSlice";
 
 export const GroupTaskList = () => {
     const dispatch = useDispatch();
-    const tasks = useSelector((state : RootState) => state.tasks.tasks);
+    const groupTasks = useSelector((state : RootState) => state.groupTasks.tasks);
     const [loading, setLoading] = useState(true);
     const [searchParams] = useSearchParams();
 
-    const UserId = useSelector((state : RootState) => state.auth.user)?.uid;
+    interface groupId {
+        id : string | null
+    }
+
+    const group : groupId = {
+        id : null
+    }
     
     useEffect( () => {
-        const iddd = searchParams.get("id");
-        console.log(iddd);
+        group.id = searchParams.get("id");
         setLoading(true);
         const fetchTasks = async () => {
-            const querySnapshot = await getDocs(collection(db, `Users/${UserId}/tasks`));
+            const querySnapshot = await getDocs(collection(db, `Groups/${group.id}/tasks`));
             setLoading(false);
-            const tasksData = querySnapshot.docs.map((doc) => {
+            const groupTasksData = querySnapshot.docs.map((doc) => {
                 const data = doc.data();
                 return { id: doc.id, title: data.title };
             });
-            dispatch(setTasks(tasksData));
+            dispatch(setGroupTasks(groupTasksData));
         };
         fetchTasks();
     }, [dispatch]);
@@ -47,19 +52,17 @@ export const GroupTaskList = () => {
                         <Skeleton className="col-span-4 min-h-24 rounded-full" />
                     </>
                                 
-                     : tasks.length === 0 ? "EMPTY" : tasks.map((task) => {
+                     : groupTasks.length === 0 ? "EMPTY" : groupTasks.map((task) => {
                         if(!task.title){
                             return null;
                         }
                         else{
-                            return <TaskCard title={task.title} id={task.id} key={task.id}/>
+                            return <TaskCard title={task.title} id={task.id} groupId={group.id} key={task.id}/>
                         }
                      
                     }))}
-
                 </div>
-                
-            <AddTask userId={UserId? UserId : ""}/>
+            <AddTask groupId={group.id} />
         </div>
     )
     
