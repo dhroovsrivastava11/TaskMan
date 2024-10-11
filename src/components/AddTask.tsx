@@ -16,8 +16,8 @@ import {
 import { addGroupTask } from "@/redux/GroupTaskSlice";
 
 interface addTaskParameters {
-    userId? : string | null,
-    groupId? : string | null
+    userId? : string ,
+    groupId? : string
 }
 
 export const AddTask = ({userId, groupId} : addTaskParameters ) => {
@@ -26,6 +26,7 @@ export const AddTask = ({userId, groupId} : addTaskParameters ) => {
     const dispatch = useDispatch();
 
     async function handleAddTask(){
+
         if(!taskTitle) return;
         if(userId){
             const docRef = await addDoc(collection(db, `Users`, `${userId}`, `tasks`), { title: taskTitle });

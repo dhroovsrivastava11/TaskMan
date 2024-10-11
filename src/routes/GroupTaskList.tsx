@@ -17,6 +17,8 @@ export const GroupTaskList = () => {
     const [loading, setLoading] = useState(true);
     const [searchParams] = useSearchParams();
 
+    const [groupIddd, setGroupId] = useState();
+
     interface groupId {
         id : string | null
     }
@@ -27,6 +29,8 @@ export const GroupTaskList = () => {
     
     useEffect( () => {
         group.id = searchParams.get("id");
+        // @ts-ignore
+        setGroupId(group.id);
         setLoading(true);
         const fetchTasks = async () => {
             const querySnapshot = await getDocs(collection(db, `Groups/${group.id}/tasks`));
@@ -62,7 +66,8 @@ export const GroupTaskList = () => {
                      
                     }))}
                 </div>
-            <AddTask groupId={group.id} />
+            {groupIddd? <AddTask groupId={groupIddd} /> : ""}
+            
         </div>
     )
     
